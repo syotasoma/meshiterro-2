@@ -1,18 +1,19 @@
 class UsersController < ApplicationController
+  before_action :is_maching_login_user, only: [:edit, :update]
   def show
     @user = PostImage.find(params[:id])
     @post_images = @user.post_images.page(params[:page])
   end
 
   def edit
-   @user = PostImage.find(params[:id])
-  end
+    @user = User.find(params[:id])
+  end 
   
   def update
-    @user = PostImage.find(params[:id])
-    post_image.update(list_params)
-    redirect_to post_image(post_image.id)
-  end 
+    @user = User.find(params[:id])
+    @user.update(user_params)
+    redirect_to user_path(@user.id)
+  end
  private
  def user_params
    params.require(:user).permit(:name, :profile_image)
